@@ -101,6 +101,9 @@ vim.g.have_nerd_font = false
 -- enable line breaks so that word wrap whole rather than breaking mid-word
 vim.opt.linebreak = true
 
+-- automatically detect and handle different line endings
+vim.opt.fileformats = 'unix,dos,mac'
+
 -- Make line numbers default
 vim.o.number = true
 -- You can also add relative line numbers, to help with jumping.
@@ -267,7 +270,12 @@ require('lazy').setup({
   -- NOTE: Plugins can be added via a link or github org/name. To run setup automatically, use `opts = {}`
   { 'NMAC427/guess-indent.nvim', opts = {} },
   { 'windwp/nvim-autopairs', event = 'InsertEnter', opts = {} },
-
+  { 'numToStr/Comment.nvim', opts = {} },
+  -- theme that were never used to remind me to stick to the defaults
+  { 'ray-x/starry.nvim', opts = {} }, -- to be used for mariana
+  -- { 'rose-pine/neovim', name = 'rose-pine', opts = {} },
+  -- { 'catppuccin/nvim', name = 'catppuccin' },
+  -- { 'sainnhe/sonokai' },
   -- Alternatively, use `config = function() ... end` for full control over the configuration.
   -- If you prefer to call `setup` explicitly, use:
   --    {
@@ -832,7 +840,11 @@ require('lazy').setup({
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
+      -- vim.cmd.colorscheme 'tokyonight-night'
+      vim.cmd.colorscheme 'mariana'
+      -- vim.cmd.colorscheme 'rose-pine'
+      -- vim.cmd.colorscheme 'catppuccin-frappe'
+      -- vim.cmd.colorscheme 'sonokai'
     end,
   },
 
