@@ -91,7 +91,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
@@ -100,6 +100,10 @@ vim.g.have_nerd_font = false
 
 -- enable line breaks so that word wrap whole rather than breaking mid-word
 vim.opt.linebreak = true
+
+-- enable spell check
+vim.opt.spell = true
+vim.opt.spelllang = 'en_us'
 
 -- automatically detect and handle different line endings
 vim.opt.fileformats = 'unix,dos,mac'
@@ -242,6 +246,12 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function() vim.hl.on_yank() end,
 })
 
+-- autosave
+vim.api.nvim_create_autocmd({ 'TextChanged', 'InsertLeave' }, {
+  pattern = '*',
+  command = 'silent! write',
+})
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -268,11 +278,16 @@ rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added via a link or github org/name. To run setup automatically, use `opts = {}`
+  { 'nvim-lualine/lualine.nvim' },
   { 'NMAC427/guess-indent.nvim', opts = {} },
   { 'windwp/nvim-autopairs', event = 'InsertEnter', opts = {} },
   { 'numToStr/Comment.nvim', opts = {} },
+  { 'stevearc/conform.nvim', opts = {} },
+  { 'tpope/vim-surround' },
+  { 'mfussenegger/nvim-dap' },
+  { 'mfussenegger/nvim-dap-python' },
   -- theme that were never used to remind me to stick to the defaults
-  { 'ray-x/starry.nvim', opts = {} }, -- to be used for mariana
+  -- { 'ray-x/starry.nvim', opts = {} }, -- to be used for mariana
   -- { 'rose-pine/neovim', name = 'rose-pine', opts = {} },
   -- { 'catppuccin/nvim', name = 'catppuccin' },
   -- { 'sainnhe/sonokai' },
@@ -299,7 +314,6 @@ require('lazy').setup({
         change = { text = '~' },
         delete = { text = '_' },
         topdelete = { text = '‾' },
-        changedelete = { text = '~' },
       },
     },
   },
@@ -650,6 +664,9 @@ require('lazy').setup({
         'marksman',
         'stylua', -- Used to format Lua code
         'typescript-language-server',
+        'debugpy',
+        'ruff',
+        'black',
         -- You can add other tools here that you want Mason to install
       })
 
@@ -840,8 +857,8 @@ require('lazy').setup({
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      -- vim.cmd.colorscheme 'tokyonight-night'
-      vim.cmd.colorscheme 'mariana'
+      vim.cmd.colorscheme 'tokyonight-night'
+      -- vim.cmd.colorscheme 'mariana'
       -- vim.cmd.colorscheme 'rose-pine'
       -- vim.cmd.colorscheme 'catppuccin-frappe'
       -- vim.cmd.colorscheme 'sonokai'
@@ -947,5 +964,34 @@ require('lazy').setup({
   },
 })
 
--- The line beneath this is called `modeline`. See `:help modeline`
+require('conform').setup {
+  formatters_by_ft = {
+    python = { 'ruff', 'black' },
+  },
+  format_on_save = {
+    timeout_ms = 500,
+    lsp_fallback = true,
+  },
+}
+
+require('dap-python').setup(vim.fn.exepath 'debugpy-adapter')
+
+-- keymaps for python debugger
+vim.keymap.set('n', '<F5>', require('dap').continue)
+vim.keymap.set('n', '<F10>', require('dap').step_over)
+vim.keymap.set('n', '<F11>', require('dap').step_into)
+vim.keymap.set('n', '<leader>b', require('dap').toggle_breakpoint)
+-- Open horizontal terminal at bottom
+vim.keymap.set('n', '<leader>t', ':vsplit | terminal<CR>', { desc = 'Open terminal' })
+
+-- Easy escape from terminal mode
+vim.keymap.set('t', '<Escape>', '<C-\\><C-n>')
+vim.keymap.set('t', '<Escape><Escape>', '<C-\\><C-n>:q<CR>') -- this is to get out of insert mode and then close terminal
+-- Switch between windows easily
+vim.keymap.set('n', '<leader>w', '<C-w>w', { desc = 'Switch window' })
+
+-- Close terminal window
+vim.keymap.set('n', '<leader>q', ':q<CR>', { desc = 'Close window' })
+
+-- The line beneath this is called `"modeline"`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
