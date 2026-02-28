@@ -143,7 +143,7 @@ vim.o.signcolumn = 'yes'
 vim.o.updatetime = 250
 
 -- Decrease mapped sequence wait time
-vim.o.timeoutlen = 300
+vim.o.timeoutlen = 100
 
 -- Configure how new splits should be opened
 vim.o.splitright = true
@@ -177,15 +177,20 @@ vim.o.confirm = true
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
--- Clear highlights on search when pressing <Esc> in normal mode
+-- keymaps to jump 5 lines up or down
+vim.keymap.set('n', '<A-j>', '5j', { noremap = true, silent = true })
+vim.keymap.set('n', '<A-k>', '5k', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, '<A-j>', '5j', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, '<A-k>', '5k', { noremap = true, silent = true })
+
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- keybinding to open init.lua from anywhere
 vim.keymap.set('n', '<leader>ec', ':e ~/.config/nvim/init.lua<CR>')
 
--- set jk as key combination to come back to normal mode from insert mode
-vim.keymap.set('i', 'jk', '<Esc>')
+-- keybinding to clear the search buffer because otherwise nvim will highlight the word
+vim.keymap.set('n', '<Esc>', ':noh<CR>', { silent = true })
 
 -- Diagnostic Config & Keymaps
 -- See :help vim.diagnostic.Opts
@@ -283,7 +288,7 @@ require('lazy').setup({
   { 'windwp/nvim-autopairs', event = 'InsertEnter', opts = {} },
   { 'numToStr/Comment.nvim', opts = {} },
   { 'stevearc/conform.nvim', opts = {} },
-  { 'tpope/vim-surround' },
+  { 'kylechui/nvim-surround' },
   { 'mfussenegger/nvim-dap' },
   { 'mfussenegger/nvim-dap-python' },
   -- theme that were never used to remind me to stick to the defaults
@@ -455,6 +460,18 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sc', builtin.commands, { desc = '[S]earch [C]ommands' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
+      -- find all files including those ignored by git
+      vim.keymap.set(
+        'n',
+        '<leader>ff',
+        function()
+          require('telescope.builtin').find_files {
+            hidden = true,
+            no_ignore = true,
+          }
+        end,
+        { desc = 'Find files (all)' }
+      )
       -- This runs on LSP attach per buffer (see main LSP attach function in 'neovim/nvim-lspconfig' config for more info,
       -- it is better explained there). This allows easily switching between pickers if you prefer using something else!
       vim.api.nvim_create_autocmd('LspAttach', {
@@ -904,18 +921,22 @@ require('lazy').setup({
     end,
   },
 
-  { -- Highlight, edit, and navigate code
+  {
     'nvim-treesitter/nvim-treesitter',
+    build = ':TSUpdate', -- only runs on install/update
     config = function()
       local filetypes = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
-      require('nvim-treesitter').install(filetypes)
+      require('nvim-treesitter').setup {
+        ensure_installed = filetypes,
+        auto_install = false,
+        highlight = { enable = true },
+      }
       vim.api.nvim_create_autocmd('FileType', {
         pattern = filetypes,
         callback = function() vim.treesitter.start() end,
       })
     end,
   },
-
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- place them in the correct locations.
@@ -969,7 +990,7 @@ require('conform').setup {
     python = { 'ruff', 'black' },
   },
   format_on_save = {
-    timeout_ms = 500,
+    timeout_ms = 10000,
     lsp_fallback = true,
   },
 }
@@ -981,17 +1002,9 @@ vim.keymap.set('n', '<F5>', require('dap').continue)
 vim.keymap.set('n', '<F10>', require('dap').step_over)
 vim.keymap.set('n', '<F11>', require('dap').step_into)
 vim.keymap.set('n', '<leader>b', require('dap').toggle_breakpoint)
--- Open horizontal terminal at bottom
+
+-- Open vertical terminal to the right
 vim.keymap.set('n', '<leader>t', ':vsplit | terminal<CR>', { desc = 'Open terminal' })
-
--- Easy escape from terminal mode
-vim.keymap.set('t', '<Escape>', '<C-\\><C-n>')
-vim.keymap.set('t', '<Escape><Escape>', '<C-\\><C-n>:q<CR>') -- this is to get out of insert mode and then close terminal
--- Switch between windows easily
-vim.keymap.set('n', '<leader>w', '<C-w>w', { desc = 'Switch window' })
-
--- Close terminal window
-vim.keymap.set('n', '<leader>q', ':q<CR>', { desc = 'Close window' })
 
 -- The line beneath this is called `"modeline"`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
