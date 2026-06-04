@@ -1,19 +1,26 @@
-return {
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'folke/tokyonight.nvim',
-    priority = 1000, -- Make sure to load this before all the other start plugins.
-    config = function()
-      ---@diagnostic disable-next-line: missing-fields
-      require('tokyonight').setup {
-        styles = {
-          comments = { italic = false }, -- Disable italics in comments
-        },
-      }
+-- return {
+--     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
+--     'folke/tokyonight.nvim',
+--     priority = 1000, -- Make sure to load this before all the other start plugins.
+--     config = function()
+--       ---@diagnostic disable-next-line: missing-fields
+--       require('tokyonight').setup {
+--         styles = {
+--           comments = { italic = false }, -- Disable italics in comments
+--         },
+--       }
+--
+--       vim.cmd.colorscheme 'tokyonight-night'
+--       -- vim.cmd.colorscheme 'mariana'
+--       -- vim.cmd.colorscheme 'rose-pine'
+--       -- vim.cmd.colorscheme 'catppuccin-frappe'
+--       -- vim.cmd.colorscheme 'sonokai'
+--     end,
+--   }
+--
+-- return {
+--   'blazkowolf/gruber-darker.nvim',
+--   config = function() vim.cmd.colorscheme 'gruber-darker' end,
+-- }
 
-      vim.cmd.colorscheme 'tokyonight-night'
-      -- vim.cmd.colorscheme 'mariana'
-      -- vim.cmd.colorscheme 'rose-pine'
-      -- vim.cmd.colorscheme 'catppuccin-frappe'
-      -- vim.cmd.colorscheme 'sonokai'
-    end,
-  }
+return {}
