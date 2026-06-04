@@ -1,0 +1,11 @@
+-- Save as /tmp/lsp_test.lua and open with nvim /tmp/lsp_test.lua
+
+local my_variable = 42
+
+local function greet(name)
+  return "hello " .. name
+end
+
+local result = greet("world")
+print(my_variable)
+print(result)
