@@ -17,10 +17,20 @@
 --       -- vim.cmd.colorscheme 'sonokai'
 --     end,
 --   }
---
+
 -- return {
 --   'blazkowolf/gruber-darker.nvim',
+--   opts = {
+--     bold = false,
+--     italic = {
+--       strings = false,
+--       comments = false,
+--       operators = false,
+--       folds = false,
+--     },
+--   },
 --   config = function() vim.cmd.colorscheme 'gruber-darker' end,
 -- }
+-- return {}
 
-return {}
+return { 'EdenEast/nightfox.nvim', config = function() vim.cmd.colorscheme 'nordfox' end }

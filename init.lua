@@ -1,3 +1,4 @@
+vim.o.termguicolors = true
 vim.lsp.config('lua_ls', {
   settings = {
     Lua = {
@@ -174,6 +175,10 @@ rtp:prepend(lazypath)
 
 require('lazy').setup({ { import = 'custom.plugins' } }, {
   ui = { icons = {} },
+  change_detection = {
+    enabled = false,
+    notify = false,
+  },
 })
 
 -- keymaps for python debugger
@@ -189,3 +194,6 @@ vim.keymap.set('n', '<leader>t', ':vsplit | terminal<CR>', { desc = 'Open termin
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true -- converts tab characters to space
+
+-- disable folds on start
+vim.o.foldlevelstart = 99
