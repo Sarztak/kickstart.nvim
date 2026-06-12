@@ -95,10 +95,6 @@ vim.o.scrolloff = 10
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
--- keymaps to jump 5 lines up or down
-vim.keymap.set({ 'n', 'v' }, '<C-j>', '5j', { noremap = true })
-vim.keymap.set({ 'n', 'v' }, '<C-k>', '5k', { noremap = true })
-
 -- keybinding to clear the search buffer because otherwise nvim will highlight the word
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
@@ -138,14 +134,14 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 -- Keybinds to split window
-vim.keymap.set('n', '<leader>wh', ':vsp<CR>')
-vim.keymap.set('n', '<leader>wv', ':sp<CR>')
+vim.keymap.set('n', '<leader>wh', ':sp<CR>')
+vim.keymap.set('n', '<leader>wv', ':vsp<CR>')
 
 --  See `:help wincmd` for a list of all window commands
-vim.keymap.set('n', '<A-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<A-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<A-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<A-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
+vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
+vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
+vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- Highlight when yanking (copying) text
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -188,7 +184,7 @@ vim.keymap.set('n', '<F11>', require('dap').step_into)
 vim.keymap.set('n', '<leader>b', require('dap').toggle_breakpoint)
 
 -- Open vertical terminal to the right
-vim.keymap.set('n', '<leader>t', ':vsplit | terminal<CR>', { desc = 'Open terminal' })
+vim.keymap.set('n', '<leader>t', ':sp | terminal<CR>', { desc = 'Open terminal' })
 
 -- set tab to 4 spaces
 vim.opt.tabstop = 4
@@ -197,3 +193,24 @@ vim.opt.expandtab = true -- converts tab characters to space
 
 -- disable folds on start
 vim.o.foldlevelstart = 99
+
+-- maximize or equalize the splits
+vim.keymap.set('n', '<leader>tm', '<C-w>_', { desc = 'Maximize split' })
+vim.keymap.set('n', '<leader>te', '<C-w>=', { desc = 'Equalize splits' })
+
+-- python provider to run python commands
+vim.g.python3_host_prog = vim.fn.exepath 'python3'
+
+-- setting xsel; xclip is problematic; code is generated.
+vim.g.clipboard = {
+  name = 'xsel',
+  copy = {
+    ['+'] = 'xsel --clipboard --input',
+    ['*'] = 'xsel --primary --input',
+  },
+  paste = {
+    ['+'] = 'xsel --clipboard --output',
+    ['*'] = 'xsel --primary --output',
+  },
+  cache_enabled = 1,
+}
