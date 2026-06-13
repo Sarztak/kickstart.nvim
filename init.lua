@@ -183,7 +183,7 @@ vim.keymap.set('n', '<F10>', require('dap').step_over)
 vim.keymap.set('n', '<F11>', require('dap').step_into)
 vim.keymap.set('n', '<leader>b', require('dap').toggle_breakpoint)
 
--- Open vertical terminal to the right
+-- Open vertical terminal down
 vim.keymap.set('n', '<leader>t', ':sp | terminal<CR>', { desc = 'Open terminal' })
 
 -- set tab to 4 spaces
