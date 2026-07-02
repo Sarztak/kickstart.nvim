@@ -214,3 +214,18 @@ vim.g.clipboard = {
   },
   cache_enabled = 1,
 }
+
+-- setting marks shortcut for fuzzying finding
+vim.keymap.set('n', '<leader>fm', '<cmd>Telescope marks<cr>')
+
+-- open the file at the last line before closing nvim
+-- nvim automatically sets a " mark before closing the file which can be read to position the cursor when file opens
+vim.api.nvim_create_autocmd('BufReadPost', {
+  callback = function()
+    local mark = vim.api.nvim_buf_get_mark(0, '"')
+    -- mark is a table of {line, column}
+    -- if the file is edited outside of nvim and lines could be deleted therefore the line on which
+    -- the mark was added may no longer exists
+    if mark[1] > 1 and mark[1] <= vim.api.nvim_buf_line_count(0) then vim.api.nvim_win_set_cursor(0, mark) end
+  end,
+})
