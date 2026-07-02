@@ -184,7 +184,11 @@ vim.keymap.set('n', '<F11>', require('dap').step_into)
 vim.keymap.set('n', '<leader>b', require('dap').toggle_breakpoint)
 
 -- Open vertical terminal down
-vim.keymap.set('n', '<leader>t', ':sp | terminal<CR>', { desc = 'Open terminal' })
+-- vim.keymap.set('n', '<leader>t', ':sp | terminal<CR>', { desc = 'Open terminal' })
+vim.keymap.set('n', '<leader>t', function()
+  vim.cmd('lcd ' .. vim.fn.expand '%:p:h')
+  vim.cmd 'split | terminal'
+end, { desc = 'Open terminal as a horizontal split in the same directory as the current buffer' })
 
 -- set tab to 4 spaces
 vim.opt.tabstop = 4
@@ -217,6 +221,12 @@ vim.g.clipboard = {
 
 -- setting marks shortcut for fuzzying finding
 vim.keymap.set('n', '<leader>fm', '<cmd>Telescope marks<cr>')
+
+-- keybinding to fuzzy find previously run nvim commands
+vim.keymap.set('n', '<leader>fh', '<cmd> Telescope command_history<cr>')
+
+-- keybinding to fuzzy find jumplist
+vim.keymap.set('n', '<leader>fj', '<cmd> Telescope jumplist<cr>')
 
 -- open the file at the last line before closing nvim
 -- nvim automatically sets a " mark before closing the file which can be read to position the cursor when file opens
