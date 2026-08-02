@@ -3,7 +3,7 @@ return {
   lazy = false, -- this plugin does not support lazy loading
   build = ':TSUpdate', -- only runs on install/update
   config = function()
-    local filetypes = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'python', 'javascript' }
+    local filetypes = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'python', 'javascript', 'ruby' }
     require('nvim-treesitter').install(filetypes)
     vim.api.nvim_create_autocmd('FileType', {
       pattern = filetypes,

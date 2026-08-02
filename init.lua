@@ -138,10 +138,14 @@ vim.keymap.set('n', '<leader>wh', ':sp<CR>')
 vim.keymap.set('n', '<leader>wv', ':vsp<CR>')
 
 --  See `:help wincmd` for a list of all window commands
-vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+vim.keymap.set('n', '<leader>h', '<C-w><C-h>', { desc = 'Move focus to the left window' })
+vim.keymap.set('n', '<leader>l', '<C-w><C-l>', { desc = 'Move focus to the right window' })
+vim.keymap.set('n', '<leader>j', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
+vim.keymap.set('n', '<leader>k', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+
+-- jump 5 lines up or down
+vim.keymap.set('n', '[j', '5j')
+vim.keymap.set('n', '[k', '5k')
 
 -- Highlight when yanking (copying) text
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -239,3 +243,4 @@ vim.api.nvim_create_autocmd('BufReadPost', {
     if mark[1] > 1 and mark[1] <= vim.api.nvim_buf_line_count(0) then vim.api.nvim_win_set_cursor(0, mark) end
   end,
 })
+

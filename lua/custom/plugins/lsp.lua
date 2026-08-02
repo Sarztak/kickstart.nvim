@@ -1,4 +1,4 @@
--- Brief aside: **What is LSP?**
+-- Brief aside: **What is LSP?**lsu
 --
 -- LSP is an initialism you've probably heard, but might not understand what it is.
 --
@@ -124,6 +124,8 @@ return {
       'marksman',
       'html-lsp', -- Mason name differs from lspconfig name
       'typescript-language-server', -- Mason name differs from lspconfig name
+      -- 'ruby-lsp',
+      'solargraph',
     }
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -135,6 +137,8 @@ return {
       marksman = {},
       html = {},
       ts_ls = {},
+      -- ruby_lsp = {},
+      solargraph = {},
     }
 
     for name, server in pairs(servers) do
