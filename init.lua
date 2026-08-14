@@ -188,11 +188,9 @@ vim.keymap.set('n', '<F11>', require('dap').step_into)
 vim.keymap.set('n', '<leader>b', require('dap').toggle_breakpoint)
 
 -- Open vertical terminal down
--- vim.keymap.set('n', '<leader>t', ':sp | terminal<CR>', { desc = 'Open terminal' })
 vim.keymap.set('n', '<leader>t', function()
-  vim.cmd('lcd ' .. vim.fn.expand '%:p:h')
   vim.cmd 'split | terminal'
-end, { desc = 'Open terminal as a horizontal split in the same directory as the current buffer' })
+end, { desc = 'Open terminal in the nvim launch directory' })
 
 -- set tab to 4 spaces
 vim.opt.tabstop = 4
