@@ -124,7 +124,6 @@ return {
       'marksman',
       'html-lsp', -- Mason name differs from lspconfig name
       'typescript-language-server', -- Mason name differs from lspconfig name
-      -- 'ruby-lsp',
       'solargraph',
     }
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -137,9 +136,16 @@ return {
       marksman = {},
       html = {},
       ts_ls = {},
-      -- ruby_lsp = {},
       solargraph = {},
+      ocamllsp = {},
+      catala_lsp = {},
     }
+
+    vim.filetype.add { extension = { catala_en = 'catala_en' } }
+    vim.lsp.config('catala_lsp', {
+      cmd = { 'catala-lsp' },
+      filetypes = { 'catala_en' },
+    })
 
     for name, server in pairs(servers) do
       server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
