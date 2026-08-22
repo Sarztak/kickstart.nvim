@@ -92,12 +92,17 @@ return { -- Fuzzy Finder (files, lsp, etc)
     vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
     -- find all files including those ignored by git
-    vim.keymap.set('n', '<leader>ff', function()
-      require('telescope.builtin').find_files {
-        hidden = true,
-        -- no_ignore = true,
-      }
-    end, { desc = 'Find files (all)' })
+    vim.keymap.set(
+      'n',
+      '<leader>ff',
+      function()
+        require('telescope.builtin').find_files {
+          hidden = true,
+          no_ignore = true,
+        }
+      end,
+      { desc = 'Find files (all)' }
+    )
     -- This runs on LSP attach per buffer (see main LSP attach function in 'neovim/nvim-lspconfig' config for more info,
     -- it is better explained there). This allows easily switching between pickers if you prefer using something else!
     vim.api.nvim_create_autocmd('LspAttach', {
