@@ -242,3 +242,4 @@ vim.api.nvim_create_autocmd('BufReadPost', {
   end,
 })
 
+vim.opt.rtp:prepend("/home/sleepwalker/.opam/4.14.2/share/ocp-indent/vim")
