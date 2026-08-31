@@ -124,7 +124,7 @@ return {
       'marksman',
       'html-lsp', -- Mason name differs from lspconfig name
       'typescript-language-server', -- Mason name differs from lspconfig name
-      'solargraph',
+      'lean-language-server',
     }
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -136,9 +136,9 @@ return {
       marksman = {},
       html = {},
       ts_ls = {},
-      solargraph = {},
       ocamllsp = {},
       catala_lsp = {},
+      leanls = {},
     }
 
     vim.filetype.add { extension = { catala_en = 'catala_en' } }
